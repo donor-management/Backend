@@ -1,4 +1,4 @@
-const axios = require('axios');
+// const axios = require('axios');
 const { authenticate } = require('../auth/authenticate');
 const Users = require('../models/users-model.js');
 
@@ -17,7 +17,7 @@ const secret = process.env.JWT_SECRET || 'this is simply a test';
 function register(req, res) {
   // implement user registration
   let user = req.body;
-  const hash = bcrypt.hashSync(user.password, 10); // 2 ^ n
+  const hash = bcrypt.hashSync(user.password, 12); // 2 ^ n
   user.password = hash;
 
   Users.add(user)
@@ -39,7 +39,6 @@ function generateToken(user){
   };
   return jwt.sign(payload, secret, options)
 }
-
 function login(req, res) {
   // implement user login
   let { username, password } = req.body;

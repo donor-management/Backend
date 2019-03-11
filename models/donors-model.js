@@ -10,21 +10,21 @@ module.exports = {
 };
 
 function find() {
-  return db('organizations').select('id', 'username');
+  return db('donors').select('id', 'username');
 }
 
 function findBy(filter) {
-  return db('organizations').where(filter);
+  return db('donors').where(filter);
 }
 
 async function add(user) {
-  const [id] = await db('organizations').insert(user);
+  const [id] = await db('donors').insert(user);
 
   return findById(id);
 }
 
 function findById(id) {
-  return db('organizations')
+  return db('donors')
     .where({ id })
     .first();
 }
