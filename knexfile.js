@@ -1,27 +1,40 @@
 // Update with your config settings.
+const localPgConnection = {
+  // placeholder since there is no pg locally
+  host: "localhost",
+  database: "postgres",
+  user: "postgres",
+  password: '^YLP/G*wvVG}*7t*j+a2zAd'
+};
+
+const prodDbConnection = process.env.DATABASE_URL || localPgConnection;
+
 
 module.exports = {
-  development: {
-    client: 'postgresql',
+ development: {
+    client: 'sqlite3',
     connection: {
-      database: 'postgres',
-      user: 'postgres',
-      password: "^YLP/G*wvVG}*7t*j+a2zAd"
+      filename: './data/donor-management.sqlite3',
     },
+    useNullAsDefault: true,
     migrations: {
       directory: './migrations',
     },
-    seeds: { directory: './seeds' }
+    seeds: {
+      directory: './seeds',
+    },
   },
-  production: {
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
-    migrations: {
-      directory: './migrations',
-    },
-    seeds: { directory: './seeds' }
+production: {
+      client: "postgresql",
+      connection: prodDbConnection,
+      migrations: {
+        directory: "./migrations"
+      },
+      seeds: {
+        directory: "./seeds"
+      }
+    }
   }
-}
 
 // POSTGRES DEV
   // development: {
