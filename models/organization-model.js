@@ -6,7 +6,8 @@ const db = knex(knexConfig.development);
 module.exports={
     find,
     findOrgById,
-    findDonor
+    findDonor,
+    update
 }
 
 function find(){
@@ -16,7 +17,6 @@ async function findOrgById(id){
     const organization = await db('organizations').where({id}).first().select('id', 'username', 'org_name', 'email')
     const donorsStart = await db('org_donors').where('org_id', id)
     const donors = await Promise.all(donorsStart.map( donor => findDonor(donor.donor_id)))
-   
     const campaigns = await ( db('campaigns').where( 'org_id', id ))
     return ({
         organization,
@@ -24,19 +24,15 @@ async function findOrgById(id){
         campaigns   
      })
 }
-
 async function findDonor(id){
     const donor = await db('donors').where('id', id)
     // console.log(donor)
     return(donor)
 }
 
-// function findOrgDonors(id){
-//     return db('org_donors')
-//     .where('org_id', id)
-// }
-// function findDonor(id){
-//     return db('donors')
-//     .where({ id })
-//     .first();
-// }
+async function update(id, changes){
+    return await db('organizations')
+    .where({id})
+    .update(changes)
+    .then(count => (count > 0 ? findOrgById(id): null))
+}
