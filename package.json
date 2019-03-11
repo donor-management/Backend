@@ -20,7 +20,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "start index.js",
+    "server": "nodemon index.js"
   },
   "repository": {
     "type": "git",
