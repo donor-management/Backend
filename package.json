@@ -20,7 +20,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "start index.js",
+    "start": "node index.js",
     "server": "nodemon index.js"
   },
   "repository": {
