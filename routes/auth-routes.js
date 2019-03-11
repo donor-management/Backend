@@ -44,7 +44,7 @@ function login(req, res) {
   Users.findBy({ username })
     .first()
     .then(user => {
-      console.log(user.password)
+      
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user); // new
         res.status(200).json({
