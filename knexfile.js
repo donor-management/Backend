@@ -1,11 +1,11 @@
 // Update with your config settings.
-const localPgConnection = {
-  host: 'localhost',
-  database: 'postgres',
-  user: 'postgres',
-  password: 'YLP/G*wvVG}*7t*j+a2zAd'
-}
-const prodDBConnection = process.env.DATABASE_URL || localPgConnection
+// const localPgConnection = {
+//   host: 'localhost',
+//   database: 'postgres',
+//   user: 'postgres',
+//   password: 'YLP/G*wvVG}*7t*j+a2zAd'
+// }
+// const prodDBConnection = process.env.DATABASE_URL || localPgConnection
 
 module.exports = {
   development: {
@@ -22,7 +22,7 @@ module.exports = {
   },
   production: {
     client: 'pg',
-    connection: prodDBConnection,
+    connection: `${process.env.DATABASE_URL}`,
     ssl: true,
     migrations: {
       directory: './migrations',
