@@ -1,7 +1,7 @@
 const faker = require('faker');
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('donations').truncate()
+  return knex('donations').del()
     .then(function () {
       // Inserts seed entries
       return knex('donations').insert([
