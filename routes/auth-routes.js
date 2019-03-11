@@ -5,11 +5,10 @@ const Users = require('../models/users-model.js');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
-
 module.exports = server => {
   server.post('/api/register', register);
   server.post('/api/login', login);
-  server.get('/api/users', authenticate, );
+  // server.get('/api/users', authenticate, );
 };
 
 const secret = process.env.JWT_SECRET || 'this is simply a test'; 
@@ -48,7 +47,6 @@ function login(req, res) {
       console.log(user.password)
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user); // new
-        
         res.status(200).json({
           message: `Welcome ${user.username}!, have a token...`,
           token,

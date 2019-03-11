@@ -3,7 +3,7 @@ const Orgs = require('../models/organization-model.js');
 
 module.exports= server =>{
     server.get('/api/donors/:id', getAllOrgCampaigns ),
-    server.get('/api/donors', getAllDonors)
+    server.get('/api/donors', authenticate, getAllDonors)
 }
 
 const getAllDonors = (req, res) =>{
