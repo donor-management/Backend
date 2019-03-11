@@ -22,7 +22,7 @@
 - Cash_Goal
 - Current_Funds 
 
-##Donors (Many to Many Table)
+## Donors (Many to Many Table)
 1. Relationships
 - Relational Table between Campaigns and Donors
 2. Data
@@ -32,7 +32,7 @@
 - Amount 
 - Notes 
 
-##Orgs_Donors Table (Many to Many Table)
+## Orgs_Donors Table (Many to Many Table)
 1. Relationships
 - Relational Table between Organizations and Donors
 2. Data
