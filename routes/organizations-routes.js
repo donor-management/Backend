@@ -2,7 +2,7 @@ const { authenticate } = require('../auth/authenticate');
 const Orgs = require('../models/organization-model.js');
 
 module.exports= server =>{
-    server.get('/api/organizations', getOrganizations)
+    server.get('/api/organizations', authenticate, getOrganizations)
     server.get('/api/organizations/:id', getAOrg)
     server.get('/api/donor/:id', getADonor)
 }

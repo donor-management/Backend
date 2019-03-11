@@ -13,12 +13,13 @@ function find(){
     return db('organizations').select('id', 'username', 'org_name');
 }
 async function findOrgById(id){
-    const org = await db('organizations').where({id}).first().select('id', 'username', 'org_name', 'email')
-    const donors = await db('org_donors').where('org_id', id).map(donor => findDonor(donor.donor_id))
-    // const newDonors = donors
+    const organization = await db('organizations').where({id}).first().select('id', 'username', 'org_name', 'email')
+    const donorsStart = await db('org_donors').where('org_id', id)
+    const donors = await Promise.all(donorsStart.map( donor => findDonor(donor.donor_id)))
+   
     const campaigns = await ( db('campaigns').where( 'org_id', id ))
     return ({
-        org,
+        organization,
         donors,
         campaigns   
      })
@@ -26,6 +27,7 @@ async function findOrgById(id){
 
 async function findDonor(id){
     const donor = await db('donors').where('id', id)
+    // console.log(donor)
     return(donor)
 }
 
