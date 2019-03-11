@@ -4,9 +4,6 @@ const Orgs = require('../models/organization-model.js');
 module.exports= server =>{
     server.get('/api/organizations', getOrganizations)
     server.get('/api/organizations/:id', getAOrg)
-    server.get('/api/campaigns/:org_id', getAllOrgCampaigns)
-    server.get('/api/donors/:org_id', getAllDonors)
-    server.get('/api/donor/:id', getADonor)
 }
 
 const getTest = (req, res) =>{
@@ -32,31 +29,32 @@ const getAOrg = async(req, res)=>{
         res.status(500).json({ message: ` Failed to get that Org`, error: err });
     })
 }
-const getADonor = (req, res)=>{
-    Orgs.findDonor((req.params.id))
-    .then(data =>{
-        res.status(200).json(data)
-    })
-    .catch(err =>{
-        res.status(500).json({ message: ` Failed to get that Donors`, error: err });
-    })
-}
-const getAllDonors = (req, res) =>{
-    Orgs.findOrgDonors(req.params.org_id)
-    .then(data => {
-        res.status(200).json(data)
-    })
-    .catch(err => {
-        res.status(500).json({ message: ` Failed to get all Donors`, error: err });
-      });
-}
-const getAllOrgCampaigns = (req, res)=>{
-    Orgs.findsOrgCampaigns(req.params.org_id)
-    .then(data => {
-        res.status(200).json(data);
-      })
-      .catch(err => {
-        res.status(500).json({ message: ` Failed to get all Campaigns`, error: err });
-      });
-}
+// }
+// const getADonor = (req, res)=>{
+//     Orgs.findDonor((req.params.id))
+//     .then(data =>{
+//         res.status(200).json(data)
+//     })
+//     .catch(err =>{
+//         res.status(500).json({ message: ` Failed to get that Donors`, error: err });
+//     })
+// }
+// const getAllDonors = (req, res) =>{
+//     Orgs.findOrgDonors(req.params.org_id)
+//     .then(data => {
+//         res.status(200).json(data)
+//     })
+//     .catch(err => {
+//         res.status(500).json({ message: ` Failed to get all Donors`, error: err });
+//       });
+// }
+// const getAllOrgCampaigns = (req, res)=>{
+//     Orgs.findsOrgCampaigns(req.params.org_id)
+//     .then(data => {
+//         res.status(200).json(data);
+//       })
+//       .catch(err => {
+//         res.status(500).json({ message: ` Failed to get all Campaigns`, error: err });
+//       });
+// }
 
