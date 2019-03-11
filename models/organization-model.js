@@ -5,7 +5,8 @@ const db = knex(knexConfig.development);
 
 module.exports={
     find,
-    findOrgById
+    findOrgById,
+    findDonor
 }
 
 function find(){
@@ -13,7 +14,8 @@ function find(){
 }
 async function findOrgById(id){
     const org = await db('organizations').where({id}).first().select('id', 'username', 'org_name', 'email')
-    const donors = await db('org_donors').where('org_id', id)
+    const donors = await db('org_donors').where('org_id', id).map(donor => findDonor(donor.donor_id))
+    // const newDonors = donors
     const campaigns = await ( db('campaigns').where( 'org_id', id ))
     return ({
         org,
@@ -22,7 +24,10 @@ async function findOrgById(id){
      })
 }
 
-
+async function findDonor(id){
+    const donor = await db('donors').where('id', id)
+    return(donor)
+}
 
 // function findOrgDonors(id){
 //     return db('org_donors')
