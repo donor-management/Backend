@@ -158,3 +158,45 @@
         - Returns 1 if delete was successful
 
 
+## Donations ##
+ 1. __Get Organizations Donations By Campaigns:__ 
+      - **URL**: https://donor-management-lambda.herokuapp.com/api/organizations/:id/donations
+      - **HTTP Request**: GET
+      -  **Required in the Head**: 
+         - Id
+    - **Returns**:
+        - Returns All that Orgs Campaigns with the donations for each 
+
+1. __Get A Campaign:__ 
+      - **URL**: https://donor-management-lambda.herokuapp.com/api/donations/:id/
+      - **HTTP Request**: GET
+      -  **Required in the Header**: 
+         - Id
+    - **Returns**:
+        - Returns specified Donation
+
+1. __Create A Donation:__ 
+    - **URL**: https://donor-management-lambda.herokuapp.com/api/donations/
+      - **HTTP Request**: Post
+      -  **Required in the Body**: 
+         - Campaign Id (Must belong to same Org_Id and the donor Id)
+         - Donor Id (Must belong to same Org_Id and the campaign Id)
+    - **Returns**:
+        - Return the newly created Campaign and their Donations in a Donations Object.
+
+1. __Update A Donation:__ 
+      - **URL**: https://donor-management-lambda.herokuapp.com/api/donations/:id
+      - **HTTP Request**: PUT
+      -  **Required in the Body**: 
+         - Any Changes you'd like
+    - **Returns**:
+        - Returns updated Campaign
+        - Returns specified Donations
+        - We recommend updating a donation via the donation routes.
+1. __Delete A Campaign:__ 
+      - **URL**: https://donor-management-lambda.herokuapp.com/api/donations/:id
+      - **HTTP Request**: DELETE
+      -  **Required in the Header**: 
+         - Id
+    - **Returns**:
+        - Returns 1 if delete was successful
