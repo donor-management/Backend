@@ -2,7 +2,6 @@ const knex = require('knex');
 const knexConfig = require('../knexfile.js')
 const db = knex(knexConfig.development);
 
-
 module.exports={
     find,
     findOrgById,
@@ -32,8 +31,6 @@ async function findDonor(id){
         db('donors').where('id', donor.donor_id)))
     return(donors)
 }
-
-
 async function update(id, changes){
     return await db('organizations')
     .where({id})

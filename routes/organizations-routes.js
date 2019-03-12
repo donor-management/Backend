@@ -28,17 +28,7 @@ const getAOrganization = async(req, res)=>{
         res.status(500).json({ message: ` Failed to get that Org`, error: err });
     })
 }
-const getADonor = async(req, res)=>{
-    Orgs.findDonor((req.params.id))
-    .then(data =>{
-        res.status(200).json(data) 
-    })
-    .catch(err =>{
-        res.status(500).json({ message: ` Failed to get that donor`, error: err });
-    })
-}
 const updateOrganization = (req, res)=>{ 
-
     Orgs.update(req.params.id, req.body)
     .then(count =>{
         res.status(200).json(count)   
@@ -51,17 +41,16 @@ const updateOrganization = (req, res)=>{
 const deleteOrganization = (req, res) =>{
     Orgs.remove(req.params.id)
     .then(userDeleted => {
-        if (userDeleted > 0) {
-          res.status(200).json(userDeleted);
+        if (userDeleted.organization > 0) {
+          res.status(200).json(userDeleted.organization);
         } else {
-          res.status(404).json({ message: `The User with the specified ID does not exist`, userDeleted });
+          res.status(404).json({ message: `The User with the specified ID does not exist`});
         }
       })
       .catch(err => {
         res.status(500).json({ message: `Failed to delete User`, error: err });
       });
 }
-
 const getOrgDonors = (req, res) =>{
     Orgs.findDonor(req.params.id)
     .then(data =>{
