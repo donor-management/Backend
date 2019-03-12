@@ -17,7 +17,8 @@ function find(){
 async function findOrgById(id){
     const organization = await db('organizations').where({id}).first().select('id', 'username', 'org_name', 'email')
     const donorsStart = await db('org_donors').where('org_id', id)
-    const donors = await Promise.all(donorsStart.map( donor => findDonor(donor.donor_id)))
+    const donors = await Promise.all(donorsStart.map( donor => 
+        db('donors').where('id', donor.donor_id)))
     const campaigns = await ( db('campaigns').where( 'org_id', id ))
     return ({
         organization,
@@ -26,10 +27,13 @@ async function findOrgById(id){
      })
 }
 async function findDonor(id){
-    const donor = await db('donors').where('id', id)
-    // console.log(donor)
-    return(donor)
+    const donorsStart = await db('org_donors').where('org_id', id)
+    const donors = await Promise.all(donorsStart.map( donor => 
+        db('donors').where('id', donor.donor_id)))
+    return(donors)
 }
+
+
 async function update(id, changes){
     return await db('organizations')
     .where({id})
