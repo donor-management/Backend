@@ -24,7 +24,7 @@ async function add(user) {
 }
 
 function findById(id) {
-  return db('organizations')
+  return db('organizations').select('id', 'username', 'email', 'org_name')
     .where({ id })
     .first();
 }
