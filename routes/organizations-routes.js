@@ -6,6 +6,7 @@ module.exports= server =>{
     server.get('/api/organizations/:id', getAOrganization)
     server.get('/api/donor/:id', getADonor)
     server.put('/api/organizations/:id', updateOrganization)
+    server.delete('/api/organizations/:id', deleteOrganization)
 }
 
 const getOrganizations = (req, res) =>{
@@ -20,6 +21,7 @@ const getOrganizations = (req, res) =>{
 const getAOrganization = async(req, res)=>{
     Orgs.findOrgById((req.params.id))
     .then(data =>{
+        data.organization === undefined ? res.status(404).json({message: "Sorry this user has been deleted, please create a new user"}):
         res.status(200).json(data) 
     })
     .catch(err =>{
@@ -35,7 +37,6 @@ const getADonor = async(req, res)=>{
         res.status(500).json({ message: ` Failed to get that donor`, error: err });
     })
 }
-
 const updateOrganization = (req, res)=>{ 
 
     Orgs.update(req.params.id, req.body)
@@ -47,4 +48,16 @@ const updateOrganization = (req, res)=>{
         res.status(500).json({ message: `Internal server error. Could not update User`, error: err });
     });
 }
-
+const deleteOrganization = (req, res) =>{
+    Orgs.remove(req.params.id)
+    .then(userDeleted => {
+        if (userDeleted > 0) {
+          res.status(200).json(userDeleted);
+        } else {
+          res.status(404).json({ message: `The User with the specified ID does not exist`, userDeleted });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: `Failed to delete User`, error: err });
+      });
+}

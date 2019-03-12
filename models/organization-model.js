@@ -7,7 +7,8 @@ module.exports={
     find,
     findOrgById,
     findDonor,
-    update
+    update,
+    remove
 }
 
 function find(){
@@ -29,10 +30,17 @@ async function findDonor(id){
     // console.log(donor)
     return(donor)
 }
-
 async function update(id, changes){
     return await db('organizations')
     .where({id})
     .update(changes)
     .then(count => (count > 0 ? findOrgById(id): null))
+}
+async function remove(id){
+    const donors = await db('org_donors').where({'org_id': id}).del()
+    const campaigns = await ( db('campaigns').where( {'org_id': id })).del()
+    const organization = await db('organizations').where({'id': id}).del();
+    return {
+        donors,campaigns,organization
+    }
 }
