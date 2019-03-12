@@ -6,7 +6,8 @@ module.exports = {
     findById,
     findByOrg,
     add,
-    update
+    update,
+    remove
 }
 
 function findById(id){
@@ -28,3 +29,8 @@ async function update(id, changes){
     .then(count => (count > 0 ? findById(id): null))
   }
 
+function remove(id){
+    return db('donations').where( {id}).del();
+    
+  }
+  

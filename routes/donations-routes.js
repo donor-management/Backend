@@ -4,6 +4,7 @@ const Donations = require('../models/donations-model.js')
 module.exports = server =>{
     server.get('/api/donations/:id/', getADonation)
     server.put('/api/donations/:id/', updateDonation)
+    server.delete('/api/donations/:id/', deleteDonation)
     server.post('/api/donations/', addDonations)
     server.get('/api/organizations/:id/donations', getOrgDonations)
 }
@@ -50,3 +51,16 @@ const updateDonation = (req, res)=>{
     });
 }
 // Delete a Donation
+const deleteDonation = (req, res)=>{
+    Donations.remove(req.params.id)
+    .then(donationDel => {
+        if (donationDel > 0) {
+          res.status(200).json(donationDel);
+        } else {
+          res.status(404).json({ message: `The Donation with the specified ID does not exist` });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: `Failed to delete Donation`, error: err });
+      });
+}
