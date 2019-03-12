@@ -8,11 +8,16 @@ module.exports = {
   findBy,
   findById,
   update,
-  remove
+  remove,
+  findDonations
 };
 
 function find() {
   return db('donors');
+}
+function findDonations(id){
+  return db('donations')
+  .where('donor_id', id)
 }
 function findBy(filter) {
   return db('donors').where(filter);
@@ -46,7 +51,6 @@ async function update(id, changes){
   .update(changes)
   .then(count => (count > 0 ? findById(id): null))
 }
-
 async function remove(id){
   const removeDonor = await (db('donors').where({'id': id})).del();
   const removeFromDonations = await db('donations').where({'donor_id': id}).del();

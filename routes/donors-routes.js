@@ -3,6 +3,7 @@ const Donors = require('../models/donors-model.js')
 module.exports = server =>{
     server.get('/api/donors', getDonors);
     server.get('/api/donors/:id', getADonor)
+    server.get('/api/donors/:id/donations', getDonorsDonations)
     server.post('/api/donors/', addDonor)
     server.put('/api/donors/:id', updateDonor)
     server.delete('/api/donors/:id', deleteDonor)
@@ -22,6 +23,17 @@ const getADonor = (req, res) =>{
     .then(data =>{
         data === undefined ? res.status(404).json({message:"That donor no longer exists or worse... they never did."}) :
         res.status(200).json(data)
+        
+    })
+    .catch(err => {
+        res.status(500).json({ message: ` Failed to get that donor`, error: err });
+    })
+}
+const getDonorsDonations = (req, res )=>{
+    Donors.findDonations(req.params.id)
+    .then(data =>{
+        data === undefined ? res.status(404).json({message:"That donor no longer exists or worse... they never did."}) :
+        res.status(200).json({donations:data})
         
     })
     .catch(err => {

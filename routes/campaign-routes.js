@@ -1,11 +1,13 @@
 const Campaigns = require('../models/campaign-model.js')
 
 module.exports = server =>{
-    server.get('/api/Campaigns', getCampaigns);
-    server.get('/api/Campaigns/:id', getACampaign)
-    server.post('/api/Campaigns/', addCampaign)
-    server.put('/api/Campaigns/:id', updateCampaign)
-    server.delete('/api/Campaigns/:id', deleteCampaign)
+    server.get('/api/campaigns', getCampaigns);
+    server.get('/api/campaigns/:id', getACampaign)
+    server.get('/api/campaigns/:id/donations', getCampaignDonations)
+    server.post('/api/campaigns/', addCampaign)
+    server.put('/api/campaigns/:id', updateCampaign)
+    server.delete('/api/campaigns/:id', deleteCampaign)
+    
 }
 //GET Calls
 const getCampaigns = (req, res) =>{
@@ -25,8 +27,19 @@ const getACampaign = (req, res) =>{
         
     })
     .catch(err => {
-        res.status(500).json({ message: ` Failed to get all Organizations`, error: err });
+        res.status(500).json({ message: ` Failed to get that Campaign`, error: err });
     })
+}
+const getCampaignDonations = (req, res) =>{
+        Campaigns.findDonations(req.params.id)
+        .then(data =>{
+            data === undefined ? res.status(404).json({message:"That donor no longer exists or worse... they never did."}) :
+            res.status(200).json({donations:data})
+            
+        })
+        .catch(err => {
+            res.status(500).json({ message: ` Failed to get donations`, error: err });
+        })
 }
 //POST Calls
 //Requires EMAIL, NAME & ORG_ID 

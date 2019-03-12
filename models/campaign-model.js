@@ -5,6 +5,7 @@ const db = knex(knexConfig.development);
 module.exports = {
   add,
   find,
+  findDonations,
   findBy,
   findById,
   update,
@@ -14,6 +15,10 @@ module.exports = {
 function find() {
   return db('campaigns');
 }
+function findDonations(id){
+    return db('donations')
+    .where('campaign_id', id)
+  }
 function findBy(filter) {
   return db('campaigns').where(filter);
 }
@@ -21,11 +26,30 @@ async function add(donor) {
   const [id] = await db('campaigns').insert(donor);
   return findById(id);
 }
-function findById(id) {
-  return db('campaigns')
-    .where({ id })
-    .first();
+
+async function findById(id) {
+    function add(accumulator, a) {
+      return accumulator + a;
+    }
+    const campaign = await db('campaigns').where({ id }).first();
+    const donations = await ( db('donations').where('campaign_id', id ))
+    if(donations.length < 1){
+      return {campaign, donations: 'This Campaign has no contributions yet.' }
+    } 
+    else{
+    let total = donations.map(don => don.amount).reduce(add)
+    campaign.funds_received = total
+    return {
+      campaign,
+      donations
+    }
+  }
 }
+
+
+
+
+
 async function update(id, changes){
   return await db('campaigns')
   .where({id})
