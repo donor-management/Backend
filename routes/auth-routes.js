@@ -31,7 +31,7 @@ function register(req, res) {
 //Generate Token
 function generateToken(user){
   const payload = {
-      subject: user.id,
+      org_id: user.id,
       username: user.username,
   };
   const options ={
