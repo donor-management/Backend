@@ -1,4 +1,5 @@
 const Campaigns = require('../models/campaign-model.js')
+const { authenticate } = require('../auth/authenticate');
 
 module.exports = server =>{
     server.get('/api/campaigns', getCampaigns);

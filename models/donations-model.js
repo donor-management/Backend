@@ -3,31 +3,28 @@ const knexConfig = require('../knexfile.js')
 const db = knex(knexConfig.development);
 const DON = require('./donors-model')
 module.exports = {
+    findById,
     findByOrg,
+    add,
+    update
 }
 
+function findById(id){
+    return db('donations').where({ id }).first();
+}
 async function findByOrg(id){
     let campaigns = await db('campaigns').where('org_id', id).select('id')
     campaigns = await Promise.all(campaigns.map(camp => db('donations').where('campaign_id', camp.id ).select('campaign_id','amount', "donor_id")))
-    // campaigns.forEach(camp => console.log(camp.donations))
-    // campaigns.forEach(camp => console.log(camp.campaign.))
-//     const campaignDonations = await Promise.all(campaigns.map(camp => db('donations').where('campaign_id', camp.id ).select('amount')
-//  ))
-
-
-    // const donors = await db('donors').where('org_id', id)
-    // const donorsDonations = await Promise.all(donors.map(donor => {
-    //        return db('donations').where('donor_id', donor.id )
-    // }))
-    
- 
-    
-
-    return {
-        campaigns,
-       
-        
-    }
-   
-    
+    return {campaigns}  
 }
+async function add(donation){
+    const [id] = await db('donations').insert(donation);
+    return findById(id);
+}
+async function update(id, changes){
+    return await db('donations')
+    .where({id})
+    .update(changes)
+    .then(count => (count > 0 ? findById(id): null))
+  }
+
