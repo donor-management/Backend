@@ -15,9 +15,7 @@ function find(){
 }
 async function findOrgById(id){
     const organization = await db('organizations').where({id}).first().select('id', 'username', 'org_name', 'email')
-    const donorsStart = await db('org_donors').where('org_id', id)
-    const donors = await Promise.all(donorsStart.map( donor => 
-        db('donors').where('id', donor.donor_id)))
+    const donors = await ( db('donors').where( 'org_id', id ))
     const campaigns = await ( db('campaigns').where( 'org_id', id ))
     return ({
         organization,
@@ -38,7 +36,7 @@ async function update(id, changes){
     .then(count => (count > 0 ? findOrgById(id): null))
 }
 async function remove(id){
-    const donors = await db('org_donors').where({'org_id': id}).del()
+    const donors = await ( db('donors').where( 'org_id', id ))
     const campaigns = await ( db('campaigns').where( {'org_id': id })).del()
     const organization = await db('organizations').where({'id': id}).del();
     return {
