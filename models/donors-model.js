@@ -21,10 +21,24 @@ async function add(donor) {
   const [id] = await db('donors').insert(donor);
   return findById(id);
 }
-function findById(id) {
-  return db('donors')
-    .where({ id })
-    .first();
+async function findById(id) {
+  function add(accumulator, a) {
+    return accumulator + a;
+  }
+  const donor = await db('donors').where({ id }).first();
+  const donations = await ( db('donations').where('donor_id', id ))
+  if(donations.length < 1){
+    return {donor, donations: `This donor hasn't contributed yet. Try contacting them at ${donor.email}` }
+  } 
+  else{
+  let total = donations.map(don => don.amount).reduce(add)
+  donor.total_donations = total
+  return {
+    donor,
+    donations
+  }
+}
+
 }
 async function update(id, changes){
   return await db('donors')

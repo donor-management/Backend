@@ -1,4 +1,4 @@
-const Campaigns = require('../models/Campaigns-model.js')
+const Campaigns = require('../models/campaign-model.js')
 
 module.exports = server =>{
     server.get('/api/Campaigns', getCampaigns);
