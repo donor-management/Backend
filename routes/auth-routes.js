@@ -21,7 +21,7 @@ function register(req, res) {
 
   Users.add(user)
     .then(saved => {
-      res.status(201).json(generateToken(saved));
+      res.status(201).json(generateToken(saved), id: saved.id});
     })
     .catch(error => {
       res.status(500).json(error);
