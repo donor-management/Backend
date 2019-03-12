@@ -45,11 +45,6 @@ async function findById(id) {
     }
   }
 }
-
-
-
-
-
 async function update(id, changes){
   return await db('campaigns')
   .where({id})
