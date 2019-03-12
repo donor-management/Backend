@@ -17,9 +17,8 @@ function find() {
 function findBy(filter) {
   return db('donors').where(filter);
 }
-async function add(user) {
-  const [id] = await db('donors').insert(user);
-
+async function add(donor) {
+  const [id] = await db('donors').insert(donor);
   return findById(id);
 }
 function findById(id) {
@@ -36,9 +35,8 @@ async function update(id, changes){
 
 async function remove(id){
   const removeDonor = await (db('donors').where({'id': id})).del();
-  const removeFromOrgs = await ( db('org_donors').where( {'donor_id': id })).del()
   const removeFromDonations = await db('donations').where({'donor_id': id}).del();
   return {
-    removeDonor, removeFromOrgs ,removeFromDonations
+    removeDonor,removeFromDonations
   }
 }

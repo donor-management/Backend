@@ -20,14 +20,16 @@ const getDonors = (req, res) =>{
 const getADonor = (req, res) =>{
     Donors.findById(req.params.id)
     .then(data =>{
+        data === undefined ? res.status(404).json({message:"That donor no longer exists or worse... they never did."}) :
         res.status(200).json(data)
+        
     })
     .catch(err => {
         res.status(500).json({ message: ` Failed to get all Organizations`, error: err });
     })
 }
 //POST Calls
-//Requires EMAIL and NAME
+//Requires EMAIL, NAME & ORG_ID 
 const addDonor = (req, res) =>{
     let donor = req.body;
     Donors.add(donor)
