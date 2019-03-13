@@ -6,6 +6,7 @@ module.exports={
     find,
     findOrgById,
     findDonor,
+    findCampaigns,
     update,
     remove
 }
@@ -24,11 +25,19 @@ async function findOrgById(id){
      })
 }
 async function findDonor(id){
-    const donorsStart = await db('org_donors').where('org_id', id)
-    const donors = await Promise.all(donorsStart.map( donor => 
-        db('donors').where('id', donor.donor_id)))
-    return(donors)
+    const donors =  await db('donors').where('org_id', id)
+    const donations = await Promise.all(donors.map(donor => db('donations').where('donor_id', donor.id)))
+    return {donors, donations}
+   
 }
+async function findCampaigns(id){
+    const campaigns = await db('campaigns').where('org_id', id)
+    const donations = await Promise.all(campaigns.map(campaign => db('donations').where('campaign_id', campaign.id).select('campaign_id', 'amount')))
+
+    return {campaigns, donations}
+}
+
+
 async function update(id, changes){
     return await db('organizations')
     .where({id})
