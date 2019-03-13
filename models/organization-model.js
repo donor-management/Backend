@@ -1,12 +1,15 @@
 const knex = require('knex');
 const knexConfig = require('../knexfile.js')
 const db = knex(knexConfig.development);
-
+const Donors = require('./donors-model')
 
 module.exports={
     find,
     findOrgById,
-    findDonor
+    findDonor,
+    findCampaigns,
+    update,
+    remove,
 }
 
 function find(){
@@ -14,29 +17,39 @@ function find(){
 }
 async function findOrgById(id){
     const organization = await db('organizations').where({id}).first().select('id', 'username', 'org_name', 'email')
-    const donorsStart = await db('org_donors').where('org_id', id)
-    const donors = await Promise.all(donorsStart.map( donor => findDonor(donor.donor_id)))
-   
+    const donors = await ( db('donors').where( 'org_id', id ))
+    const fullDonors = await Promise.all(donors.map(donor => Donors.findById(donor.id)))
+    console.log(fullDonors);
     const campaigns = await ( db('campaigns').where( 'org_id', id ))
     return ({
         organization,
-        donors,
+        donors: fullDonors,
         campaigns   
      })
 }
-
 async function findDonor(id){
-    const donor = await db('donors').where('id', id)
-    // console.log(donor)
-    return(donor)
+    const donors =  await db('donors').where('org_id', id)
+    const donations = await Promise.all(donors.map(donor => db('donations').where('donor_id', donor.id).select('donor_id', 'amount')))
+    return {donors, donations}
+   
 }
-
-// function findOrgDonors(id){
-//     return db('org_donors')
-//     .where('org_id', id)
-// }
-// function findDonor(id){
-//     return db('donors')
-//     .where({ id })
-//     .first();
-// }
+async function findCampaigns(id){
+    const campaigns = await db('campaigns').where('org_id', id)
+    const donations = await Promise.all(campaigns.map(campaign => db('donations').where('campaign_id', campaign.id).select('campaign_id', 'amount')))
+    const contributions = await donations.forEach(element => { element.forEach(e2 =>{ console.log(e2.amount)})})
+    return {campaigns, donations, contributions}
+}
+async function update(id, changes){
+    return await db('organizations')
+    .where({id})
+    .update(changes)
+    .then(count => (count > 0 ? findOrgById(id): null))
+}
+async function remove(id){
+    const donors = await ( db('donors').where( 'org_id', id ))
+    const campaigns = await ( db('campaigns').where( {'org_id': id })).del()
+    const organization = await db('organizations').where({'id': id}).del();
+    return {
+        donors,campaigns,organization
+    }
+}

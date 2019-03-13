@@ -10,7 +10,6 @@ module.exports = server => {
   server.post('/api/login', login);
   // server.get('/api/users', authenticate, );
 };
-
 const secret = process.env.JWT_SECRET || 'this is simply a test'; 
 
 function register(req, res) {
@@ -21,7 +20,7 @@ function register(req, res) {
 
   Users.add(user)
     .then(saved => {
-      res.status(201).json(saved);
+      res.status(201).json({token:generateToken(saved), id: saved.id});
     })
     .catch(error => {
       res.status(500).json(error);
@@ -30,7 +29,7 @@ function register(req, res) {
 //Generate Token
 function generateToken(user){
   const payload = {
-      subject: user.id,
+      org_id: user.id,
       username: user.username,
   };
   const options ={
@@ -50,7 +49,7 @@ function login(req, res) {
         res.status(200).json({
           message: `Welcome ${user.username}!, have a token...`,
           token,
-          roles: token.roles,
+          id: user.id,
         });
       } else {
         res.status(401).json({ message: 'Invalid Credentials' });

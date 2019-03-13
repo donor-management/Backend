@@ -1,22 +1,4 @@
-require('dotenv').config(); // load .env variables
-// const cluster = require('cluster');
-// if (cluster.isMaster) {
-//   const cpuCount =
-//     process.env.WEB_CONCURRENCY ||
-//     (process.env.NODE_ENV === 'development' && os.cpus().length) ||
-//     1
-//   for (let i = 0; i < cpuCount; i++) {
-//     console.log('spawning child process')
-//     cluster.fork()
-//   }
-// } else {
-//   server.listen(port, () => console.log(`\n** server up on port ${port} **\n`))
-// }
-
-// cluster.on('exit', worker => {
-//   console.log('worker exiting')
-//   cluster.fork()
-// })
+require('dotenv').config(); 
     
 const server = require('./api/server.js');
 
