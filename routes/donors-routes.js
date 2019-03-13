@@ -1,16 +1,16 @@
 const Donors = require('../models/donors-model.js')
-
+const {authenticate} = require('../auth/authenticate.js');
 module.exports = server =>{
-    server.get('/api/donors', getDonors);
-    server.get('/api/donors/:id', getADonor)
-    server.get('/api/donors/:id/donations', getDonorsDonations)
-    server.post('/api/donors/', addDonor)
-    server.put('/api/donors/:id', updateDonor)
-    server.delete('/api/donors/:id', deleteDonor)
+    server.get('/api/donors', authenticate, getDonors);
+    server.get('/api/donors/:id', authenticate, getADonor)
+    server.get('/api/donors/:id/donations', authenticate, getDonorsDonations)
+    server.post('/api/donors/', authenticate, addDonor)
+    server.put('/api/donors/:id', authenticate, updateDonor)
+    server.delete('/api/donors/:id', authenticate, deleteDonor)
 }
 //GET Calls
 const getDonors = (req, res) =>{
-    Donors.find()
+    Donors.findByOrg(req.decoded.org_id)
     .then(data =>{
         res.status(200).json(data)
     })

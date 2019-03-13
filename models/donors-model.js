@@ -7,6 +7,7 @@ module.exports = {
   find,
   findBy,
   findById,
+  findByOrg,
   update,
   remove,
   findDonations
@@ -14,6 +15,11 @@ module.exports = {
 
 function find() {
   return db('donors');
+}
+async function findByOrg(id){
+  const donors =  await db('donors').where('org_id', id)
+  const fullDonors = await Promise.all(donors.map(donor => findById(donor.id)))
+  return fullDonors
 }
 function findDonations(id){
   return db('donations')
