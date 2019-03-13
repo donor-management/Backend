@@ -2,11 +2,11 @@ const { authenticate } = require('../auth/authenticate');
 const Donations = require('../models/donations-model.js')
 
 module.exports = server =>{
-    server.get('/api/donations/:id/', getADonation)
-    server.put('/api/donations/:id/', updateDonation)
-    server.delete('/api/donations/:id/', deleteDonation)
-    server.post('/api/donations/', addDonations)
-    server.get('/api/organizations/:id/donations', getOrgDonations)
+    server.get('/api/donations/:id/', authenticate, getADonation)
+    server.put('/api/donations/:id/', authenticate, updateDonation)
+    server.delete('/api/donations/:id/', authenticate, deleteDonation)
+    server.post('/api/donations/', authenticate, addDonations)
+    server.get('/api/organizations/:id/donations', authenticate, getOrgDonations)
 }
 
 // Get a Single Donation
