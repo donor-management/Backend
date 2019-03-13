@@ -1,7 +1,7 @@
 const knex = require('knex');
 const knexConfig = require('../knexfile.js')
 const db = knex(knexConfig.development);
-const DON = require('./donors-model')
+
 module.exports = {
     findById,
     findByOrg,
@@ -27,10 +27,8 @@ async function update(id, changes){
     .where({id})
     .update(changes)
     .then(count => (count > 0 ? findById(id): null))
-  }
-
+}
 function remove(id){
     return db('donations').where( {id}).del();
     
-  }
-  
+}

@@ -9,7 +9,6 @@ module.exports= server =>{
     server.put('/api/organizations/:id', updateOrganization)
     server.delete('/api/organizations/:id', deleteOrganization)
 }
-
 const getOrganizations = (req, res) =>{
     Orgs.find()
     .then(data =>{

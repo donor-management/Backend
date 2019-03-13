@@ -26,7 +26,6 @@ async function add(donor) {
   const [id] = await db('campaigns').insert(donor);
   return findById(id);
 }
-
 async function findById(id) {
     function add(accumulator, a) {
       return accumulator + a;
@@ -51,7 +50,6 @@ async function update(id, changes){
   .update(changes)
   .then(count => (count > 0 ? findById(id): null))
 }
-
 async function remove(id){
   const removeCampaign = await (db('campaigns').where({'id': id})).del();
   const removeFromDonations = await db('donations').where({'campaign_id': id}).del();

@@ -8,7 +8,6 @@ module.exports = server =>{
     server.post('/api/campaigns/', addCampaign)
     server.put('/api/campaigns/:id', updateCampaign)
     server.delete('/api/campaigns/:id', deleteCampaign)
-    
 }
 //GET Calls
 const getCampaigns = (req, res) =>{

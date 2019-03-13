@@ -10,7 +10,6 @@ module.exports = server => {
   server.post('/api/login', login);
   // server.get('/api/users', authenticate, );
 };
-
 const secret = process.env.JWT_SECRET || 'this is simply a test'; 
 
 function register(req, res) {

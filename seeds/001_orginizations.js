@@ -12,7 +12,6 @@ exports.seed = function(knex, Promise) {
         {"username": "YaleAlumni2018", "password": hash, "email":"YaleAlumni@yale.edu", "org_name": "Yale Alumni Association" },
         {"username": "peta2018", "password": hash, "email":"petaFundraising@peta.com", "org_name": "P.E.T.A" },
         {"username": "whaleFunds", "password": hash, "email":"saveTheWhalte@whale.com", "org_name": "Save The Whales" },
-        
       ]);
     });
 };
