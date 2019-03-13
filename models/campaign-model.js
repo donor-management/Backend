@@ -22,8 +22,8 @@ function findDonations(id){
 function findBy(filter) {
   return db('campaigns').where(filter);
 }
-async function add(donor) {
-  const [id] = await db('campaigns').insert(donor);
+async function add(campaign) {
+  const [id] = await db('campaigns').insert(campaign);
   return findById(id);
 }
 async function findById(id) {
