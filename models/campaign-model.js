@@ -5,6 +5,7 @@ const db = knex(knexConfig.development);
 module.exports = {
   add,
   find,
+  findByOrg,
   findDonations,
   findBy,
   findById,
@@ -14,6 +15,11 @@ module.exports = {
 
 function find() {
   return db('campaigns');
+}
+async function findByOrg(id){
+  const campaigns =  await db('campaigns').where('org_id', id)
+  const fullcampaigns = await Promise.all(campaigns.map(camp => findById(camp.id)))
+  return fullcampaigns
 }
 function findDonations(id){
     return db('donations')
