@@ -25,7 +25,7 @@ describe('server.js', () => {
             .send ({username: name, password: "tony123", email:"tony@hotMail", org_name:"Tony4Prez"})
             expect(res.status).toBe(201)
          });
-        it('Login Incomplete Expect 500 ', async() => {
+        it('Login ', async() => {
             let res = await request(server)
             .post('/api/login')
             .send ({username: name, password: "tony123"})
