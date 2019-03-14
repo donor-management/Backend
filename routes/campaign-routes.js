@@ -2,16 +2,16 @@ const Campaigns = require('../models/campaign-model.js')
 const { authenticate } = require('../auth/authenticate');
 
 module.exports = server =>{
-    server.get('/api/campaigns', getCampaigns);
-    server.get('/api/campaigns/:id', getACampaign)
-    server.get('/api/campaigns/:id/donations', getCampaignDonations)
-    server.post('/api/campaigns/', addCampaign)
-    server.put('/api/campaigns/:id', updateCampaign)
-    server.delete('/api/campaigns/:id', deleteCampaign)
+    server.get('/api/campaigns', authenticate, getCampaigns);
+    server.get('/api/campaigns/:id', authenticate, getACampaign)
+    server.get('/api/campaigns/:id/donations', authenticate, getCampaignDonations)
+    server.post('/api/campaigns/', authenticate, addCampaign)
+    server.put('/api/campaigns/:id', authenticate, updateCampaign)
+    server.delete('/api/campaigns/:id', authenticate, deleteCampaign)
 }
 //GET Calls
 const getCampaigns = (req, res) =>{
-    Campaigns.find()
+    Campaigns.findByOrg(req.decoded.org_id)
     .then(data =>{
         res.status(200).json(data)
     })

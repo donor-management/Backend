@@ -2,12 +2,12 @@ const { authenticate } = require('../auth/authenticate');
 const Orgs = require('../models/organization-model.js');
 
 module.exports= server =>{
-    server.get('/api/organizations', getOrganizations)
-    server.get('/api/organizations/:id', getAOrganization)
-    server.get('/api/organizations/:id/donors',  getOrgDonors)
-    server.get('/api/organizations/:id/campaigns',  getOrgCampaigns)
-    server.put('/api/organizations/:id', updateOrganization)
-    server.delete('/api/organizations/:id', deleteOrganization)
+    server.get('/api/organizations', authenticate, getOrganizations)
+    server.get('/api/organizations/:id', authenticate, getAOrganization)
+    server.get('/api/organizations/:id/donors',  authenticate, getOrgDonors)
+    server.get('/api/organizations/:id/campaigns', authenticate,  getOrgCampaigns)
+    server.put('/api/organizations/:id', authenticate, updateOrganization)
+    server.delete('/api/organizations/:id', authenticate, deleteOrganization)
 }
 const getOrganizations = (req, res) =>{
     Orgs.find()

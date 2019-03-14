@@ -135,8 +135,8 @@
     - **URL**: https://donor-management-lambda.herokuapp.com/api/campaigns/
       - **HTTP Request**: Post
       -  **Required in the Body**: 
-         - Organization Id 
-         - Campaign Name
+         - Organization Id (org_id)
+         - Campaign Name (title)
     - **Returns**:
         - Return the newly created Campaign and their Donations in a Donations Object.
 

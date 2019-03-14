@@ -19,7 +19,6 @@ async function findOrgById(id){
     const organization = await db('organizations').where({id}).first().select('id', 'username', 'org_name', 'email')
     const donors = await ( db('donors').where( 'org_id', id ))
     const fullDonors = await Promise.all(donors.map(donor => Donors.findById(donor.id)))
-    console.log(fullDonors);
     const campaigns = await ( db('campaigns').where( 'org_id', id ))
     return ({
         organization,
